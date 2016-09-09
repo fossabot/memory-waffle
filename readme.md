@@ -1,7 +1,7 @@
 
 # memory-waffle
 
-`memorywaffle` accepts a `ready` callback of the signature `function(rl) {}`. omitting this callback will call [`interface#prompt`](http://devdocs.io/node/readline#readline_rl_prompt_preservecursor) for you.
+`memorywaffle` accepts a `ready` callback of the signature `function(prompt) {}`. omitting this callback will call [`interface#prompt`](http://devdocs.io/node/readline#readline_rl_prompt_preservecursor) for you.
 
 ```javascript
 var memorywaffle = require('memory-waffle')
