@@ -1,0 +1,19 @@
+{
+  "name": "memory-waffle",
+  "version": "0.0.0",
+  "description": "make command-line interface applications with readline",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test"
+  },
+  "keywords": [
+    "readline",
+    "cli",
+    "waffles"
+  ],
+  "author": "Ant Cosentino <ant@io.co.za>",
+  "license": "ISC",
+  "devDependencies": {
+    "mocha": "^3.0.2"
+  }
+}
