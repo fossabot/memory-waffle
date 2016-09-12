@@ -70,9 +70,9 @@ function init(app) {
     )
   })
   if (app.prompt) rl.setPrompt(app.prompt)
-  return rl.prompt.bind(rl)
+  return rl.prompt()
 }
 
 module.exports = function(app, showtime) {
-  return typeof showtime === 'function' ? showtime(init(app)) : rl.prompt()
+  return typeof showtime === 'function' ? showtime(init.bind(init, app)) : rl.prompt()
 }
