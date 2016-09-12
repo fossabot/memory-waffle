@@ -8,15 +8,11 @@ function resume() {
   this.prompt()
 }
 
-module.exports = function(app, showtime) {
-
-
+function init(app) {
   if (!(app && 'commands' in app)) {
     throw new Error('provide some commands to run, else there\'s nothing to do!')
   }
-
   var cmdnames = Object.keys(app.commands)
-
   cmdnames.forEach(function(cmdname) {
     var cmd = app.commands[cmdname]
     if (typeof cmd.arity !== 'number') {
@@ -33,7 +29,6 @@ module.exports = function(app, showtime) {
       ].join(' '))
     }
   })
-
   var rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
@@ -74,8 +69,10 @@ module.exports = function(app, showtime) {
       command.body, usercmd.slice(1).concat([resume.bind(rl)])
     )
   })
-
   if (app.prompt) rl.setPrompt(app.prompt)
+  return rl.prompt.bind(rl)
+}
 
-  return typeof showtime === 'function' ? showtime(rl.prompt.bind(rl)) : rl.prompt()
+module.exports = function(app, showtime) {
+  return typeof showtime === 'function' ? showtime(init(app)) : rl.prompt()
 }
