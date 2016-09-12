@@ -11,6 +11,10 @@
     "cli",
     "waffles"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/skibz/memory-waffle.git"
+  },
   "author": "Ant Cosentino <ant@io.co.za>",
   "license": "ISC",
   "devDependencies": {
