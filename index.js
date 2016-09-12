@@ -74,5 +74,5 @@ function init(app) {
 }
 
 module.exports = function(app, showtime) {
-  return typeof showtime === 'function' ? showtime(init.bind(init, app)) : rl.prompt()
+  return typeof showtime === 'function' ? showtime(init.bind(init, app)) : init(app)
 }
