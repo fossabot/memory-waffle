@@ -22,6 +22,14 @@ describe('memorywaffle', function() {
     }
   })
 
+  it('should throw if no commands have been given', function(done) {
+    try {
+      memorywaffle()
+    } catch (e) {
+      done()
+    }
+  })
+
   it('should throw if the body of a function is not specified as a function', function(done) {
     try {
       memorywaffle({

@@ -10,8 +10,9 @@ function resume() {
 
 module.exports = function(app, showtime) {
 
-  if (!('commands' in app)) {
-    throw 'provide some commands to run, else there\'s nothing to do!'
+
+  if (!(app && 'commands' in app)) {
+    throw new Error('provide some commands to run, else there\'s nothing to do!')
   }
 
   var cmdnames = Object.keys(app.commands)
