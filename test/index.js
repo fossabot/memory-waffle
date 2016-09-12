@@ -5,7 +5,7 @@ describe('memorywaffle', function() {
   it('should invoke the showtime callback if provided when the interface is ready', function(done) {
     memorywaffle({
       commands: {
-        testing: {arity: 0, body: function() {}}
+        testing: {arity: 0, body: function(done) {}}
       }
     }, done.bind(done, null))
   })
@@ -14,7 +14,7 @@ describe('memorywaffle', function() {
     try {
       memorywaffle({
         commands: {
-          testing: {arity: 'a', body: function() {}}
+          testing: {arity: 'a', body: function(done) {}}
         }
       })
     } catch (e) {
@@ -27,6 +27,21 @@ describe('memorywaffle', function() {
       memorywaffle({
         commands: {
           testing: {arity: 0, body: 'a'}
+        }
+      })
+    } catch (e) {
+      done()
+    }
+  })
+
+  it('should throw if the number of arguments to a function is incorrect', function(done) {
+    try {
+      memorywaffle({
+        commands: {
+          testing: {
+            arity: 1,
+            body: function(done) {}
+          }
         }
       })
     } catch (e) {

@@ -17,11 +17,19 @@ module.exports = function(app, showtime) {
   var cmdnames = Object.keys(app.commands)
 
   cmdnames.forEach(function(cmdname) {
-    if (typeof app.commands[cmdname].arity !== 'number') {
-      throw 'provide the number of arguments for your command'
+    var cmd = app.commands[cmdname]
+    if (typeof cmd.arity !== 'number') {
+      throw new Error('provide the number of arguments for your command')
     }
-    if (typeof app.commands[cmdname].body !== 'function') {
-      throw 'provide a function for your command'
+    if (typeof cmd.body !== 'function') {
+      throw new Error('provide a function for your command')
+    }
+    if (cmd.body.length !== cmd.arity + 1) {
+      throw new Error([
+        'expected a function with',
+        cmd.arity,
+        'arguments (the `done` callback doesn\'t count)'
+      ].join(' '))
     }
   })
 
