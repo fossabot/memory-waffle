@@ -1,6 +1,6 @@
 {
   "name": "memory-waffle",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "make command-line interface applications with readline",
   "main": "index.js",
   "scripts": {
