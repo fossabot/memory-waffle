@@ -5,7 +5,7 @@ describe('memorywaffle', function() {
   it('should invoke the start callback if provided when the interface is ready', function(done) {
     mw({
       commands: {
-        testing: {body: function(done) {}}
+        foo: function(bar) {}
       }
     }, done.bind(done, null))
   })
@@ -23,7 +23,7 @@ describe('memorywaffle', function() {
     try {
       mw({
         commands: {
-          testing: {body: 'a'}
+          baz: 'qux'
         }
       })
     } catch (e) {
