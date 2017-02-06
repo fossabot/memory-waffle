@@ -11,17 +11,23 @@ function resume() {
 function init(app, pstr) {
   var apptype = typeof app
   if (apptype !== 'object') {
-    throw new Error('expected object definition containing functions but got ' + apptype)
+    throw new Error(
+      'expected object definition containing functions but got ' + apptype
+    )
   }
   var cmdnames = Object.keys(app)
   cmdnames.forEach(function(cmdname) {
     var cmd = app[cmdname]
     var cmdtype = typeof cmd
     if (cmdtype !== 'function') {
-      throw new Error('expected function for ' + cmdname + ' but got ' + cmdtype)
+      throw new Error(
+        'expected function for ' + cmdname + ' but got ' + cmdtype
+      )
     }
     if (cmd.length === 0) {
-      throw new Error('expected callback parameter for ' + cmdname)
+      throw new Error(
+        'expected callback parameter for ' + cmdname
+      )
     }
   })
   var rl = readline.createInterface({
@@ -68,5 +74,7 @@ function init(app, pstr) {
 }
 
 module.exports = function(app, prompt, start) {
-  return typeof start === 'function' ? start(init.bind(init, app, prompt)) : init(app, prompt)
+  return typeof start === 'function' ? (
+    start(init.bind(init, app, prompt))
+  ) : init(app, prompt)
 }
