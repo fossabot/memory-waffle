@@ -18,6 +18,15 @@ describe('memorywaffle', function() {
     }
     done(new Error('should not have been called')
   })
+  
+    it('should throw if no parameters are defined in a function', function(done) {
+    try {
+      mw({commands: {foo: function() {})
+    } catch (e) {
+      return done()
+    }
+    done(new Error('should not have been called')
+  })
 
   it('should throw if the body of a function is not specified as a function', function(done) {
     try {
