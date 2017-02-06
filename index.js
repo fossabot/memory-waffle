@@ -20,7 +20,7 @@ function init(app, pstr) {
     if (cmdtype !== 'function') {
       throw new Error('expected function for ' + cmdname + ' but got ' + cmdtype)
     }
-    if (cmd.length < 1) {
+    if (cmd.length === 0) {
       throw new Error('expected callback parameter for ' + cmdname)
     }
   })
