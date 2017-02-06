@@ -8,13 +8,14 @@ function resume() {
   this.prompt()
 }
 
-function init(app) {
-  if (!(app && 'commands' in app)) {
-    throw new Error('provide some commands to run, else there\'s nothing to do!')
+function init(app, pstr) {
+  var apptype = typeof app
+  if (apptype !== 'object') {
+    throw new Error('expected object definition containing functions but got ' + apptype)
   }
-  var cmdnames = Object.keys(app.commands)
+  var cmdnames = Object.keys(app)
   cmdnames.forEach(function(cmdname) {
-    var cmd = app.commands[cmdname]
+    var cmd = app[cmdname]
     var cmdtype = typeof cmd
     if (cmdtype !== 'function') {
       throw new Error('expected function for ' + cmdname + ' but got ' + cmdtype)
@@ -27,7 +28,6 @@ function init(app) {
     input: process.stdin,
     output: process.stdout,
     completer: function(line) {
-      var cmds = Object.keys(app.commands)
       var hits = cmdnames.filter(function(c) {
         return c.indexOf(line) === 0
       })
@@ -42,12 +42,12 @@ function init(app) {
     rl.pause()
 
     var usercmd = line.split(' ')
-    if (!(usercmd[0] in app.commands)) {
+    if (!(usercmd[0] in app)) {
       console.log('command not found:', usercmd[0])
       return resume.call(rl)
     }
     
-    var cmd = app.commands[usercmd[0]]
+    var cmd = app[usercmd[0]]
     var arity = cmd.length - 1
     if (usercmd.length - 1 !== arity) {
       console.log(
@@ -63,10 +63,10 @@ function init(app) {
       cmd, usercmd.slice(1).concat([resume.bind(rl)])
     )
   })
-  if (app.prompt) rl.setPrompt(app.prompt)
+  rl.setPrompt(pstr || '> ')
   return rl.prompt()
 }
 
-module.exports = function(app, start) {
-  return typeof start === 'function' ? start(init.bind(init, app)) : init(app)
+module.exports = function(app, prompt, start) {
+  return typeof start === 'function' ? start(init.bind(init, app, prompt)) : init(app, prompt)
 }
