@@ -1,7 +1,7 @@
 {
   "name": "memory-waffle",
   "version": "0.0.6",
-  "description": "make command-line interface applications with readline",
+  "description": "dead simple command-line interface apps",
   "main": "index.js",
   "scripts": {
     "test": "mocha test"
