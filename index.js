@@ -15,19 +15,11 @@ function init(app) {
   var cmdnames = Object.keys(app.commands)
   cmdnames.forEach(function(cmdname) {
     var cmd = app.commands[cmdname]
-    if (typeof cmd.arity !== 'number') {
-      throw new Error('provide the number of arguments for your command')
-    }
     if (typeof cmd.body !== 'function') {
       throw new Error('provide a function for your command')
     }
-    if (cmd.body.length !== cmd.arity + 1) {
-      throw new Error([
-        'expected a function with',
-        cmd.arity,
-        'arguments (the `done` callback doesn\'t count)'
-      ].join(' '))
-    }
+    // the `done` callback doesn't count
+    cmd.arity = cmd.body.length - 1
   })
   var rl = readline.createInterface({
     input: process.stdin,
@@ -48,31 +40,30 @@ function init(app) {
     rl.pause()
 
     var usercmd = line.split(' ')
-    var command = app.commands[usercmd[0]]
-
     if (!(usercmd[0] in app.commands)) {
       console.log('command not found:', usercmd[0])
       return resume.call(rl)
     }
-
-    if (usercmd.length - 1 !== command.arity) {
+    
+    var cmd = app.commands[usercmd[0]]
+    if (usercmd.length - 1 !== cmd.arity) {
       console.log(
         'expected',
-        command.arity,
+        cmd.arity,
         'argument(s), got',
         usercmd.length - 1
       )
       return resume.call(rl)
     }
-
-    return command.body.apply(
-      command.body, usercmd.slice(1).concat([resume.bind(rl)])
+    return cmd.body.apply(
+      // resume the prompt in place of the `done` callback
+      cmd.body, usercmd.slice(1).concat([resume.bind(rl)])
     )
   })
   if (app.prompt) rl.setPrompt(app.prompt)
   return rl.prompt()
 }
 
-module.exports = function(app, showtime) {
-  return typeof showtime === 'function' ? showtime(init.bind(init, app)) : init(app)
+module.exports = function(app, start) {
+  return typeof start === 'function' ? start(init.bind(init, app)) : init(app)
 }
